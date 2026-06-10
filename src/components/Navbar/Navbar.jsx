@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { FaBars, FaTimes } from "react-icons/fa";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -8,7 +9,7 @@ function Navbar() {
   const [wishlistCount, setWishlistCount] =
     useState(0);
 
-  const [mobileMenuOpen, setMobileMenuOpen] =
+  const [menuOpen, setMenuOpen] =
     useState(false);
 
   const updateCounts = () => {
@@ -64,43 +65,24 @@ function Navbar() {
     navigate("/login");
   };
 
-  const closeMobileMenu = () => {
-    setMobileMenuOpen(false);
-  };
-
   return (
     <nav className="bg-white shadow-md sticky top-0 z-50">
-      <div
-        className="
-          max-w-7xl
-          mx-auto
-          px-3 sm:px-4 md:px-6 lg:px-8
-          py-3 md:py-4
-        "
-      >
+      <div className="max-w-7xl mx-auto px-5 py-4">
+
         {/* Top Navbar */}
-        <div className="flex items-center justify-between">
-          
+        <div className="flex justify-between items-center">
+
           {/* Logo */}
           <Link
             to="/home"
-            className="
-              text-lg
-              sm:text-xl
-              md:text-2xl
-              lg:text-3xl
-              font-bold
-              text-blue-600
-              hover:text-blue-700
-              transition
-            "
+            className="text-xl sm:text-2xl lg:text-3xl font-bold text-blue-600"
           >
             Ecommerce Platform
           </Link>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center gap-5 lg:gap-6">
-            
+          <div className="hidden md:flex items-center gap-6">
+
             <Link
               to="/home"
               className="hover:text-blue-600 font-medium"
@@ -122,19 +104,7 @@ function Navbar() {
               ❤️ Wishlist
 
               {wishlistCount > 0 && (
-                <span
-                  className="
-                    absolute
-                    -top-2
-                    -right-4
-                    bg-pink-500
-                    text-white
-                    text-xs
-                    px-2
-                    py-0.5
-                    rounded-full
-                  "
-                >
+                <span className="absolute -top-2 -right-4 bg-pink-500 text-white text-xs px-2 py-0.5 rounded-full">
                   {wishlistCount}
                 </span>
               )}
@@ -147,19 +117,7 @@ function Navbar() {
               🛒 Cart
 
               {cartCount > 0 && (
-                <span
-                  className="
-                    absolute
-                    -top-2
-                    -right-4
-                    bg-blue-600
-                    text-white
-                    text-xs
-                    px-2
-                    py-0.5
-                    rounded-full
-                  "
-                >
+                <span className="absolute -top-2 -right-4 bg-blue-600 text-white text-xs px-2 py-0.5 rounded-full">
                   {cartCount}
                 </span>
               )}
@@ -167,145 +125,83 @@ function Navbar() {
 
             <button
               onClick={handleLogout}
-              className="
-                bg-red-500
-                text-white
-                px-4
-                py-2
-                rounded-lg
-                hover:bg-red-600
-                transition
-              "
+              className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
             >
               Logout
             </button>
+
           </div>
 
           {/* Mobile Menu Button */}
           <button
+            className="md:hidden text-2xl"
             onClick={() =>
-              setMobileMenuOpen(
-                !mobileMenuOpen
-              )
+              setMenuOpen(!menuOpen)
             }
-            className="
-              md:hidden
-              text-gray-700
-              hover:text-blue-600
-            "
           >
-            {mobileMenuOpen ? (
-              <X size={28} />
+            {menuOpen ? (
+              <FaTimes />
             ) : (
-              <Menu size={28} />
+              <FaBars />
             )}
           </button>
+
         </div>
 
         {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <div
-            className="
-              md:hidden
-              mt-4
-              border-t
-              pt-4
-              flex
-              flex-col
-              gap-4
-            "
-          >
+        {menuOpen && (
+          <div className="md:hidden mt-4 flex flex-col gap-4 border-t pt-4">
+
             <Link
               to="/home"
-              onClick={closeMobileMenu}
+              onClick={() =>
+                setMenuOpen(false)
+              }
               className="font-medium"
             >
-              🏠 Home
+              Home
             </Link>
 
             <Link
               to="/products"
-              onClick={closeMobileMenu}
+              onClick={() =>
+                setMenuOpen(false)
+              }
               className="font-medium"
             >
-              📦 Products
+              Products
             </Link>
 
             <Link
               to="/wishlist"
-              onClick={closeMobileMenu}
-              className="
-                flex
-                items-center
-                justify-between
-                font-medium
-              "
+              onClick={() =>
+                setMenuOpen(false)
+              }
+              className="font-medium"
             >
-              <span>
-                ❤️ Wishlist
-              </span>
-
-              {wishlistCount > 0 && (
-                <span
-                  className="
-                    bg-pink-500
-                    text-white
-                    text-xs
-                    px-2
-                    py-1
-                    rounded-full
-                  "
-                >
-                  {wishlistCount}
-                </span>
-              )}
+              ❤️ Wishlist ({wishlistCount})
             </Link>
 
             <Link
               to="/cart"
-              onClick={closeMobileMenu}
-              className="
-                flex
-                items-center
-                justify-between
-                font-medium
-              "
+              onClick={() =>
+                setMenuOpen(false)
+              }
+              className="font-medium"
             >
-              <span>
-                🛒 Cart
-              </span>
-
-              {cartCount > 0 && (
-                <span
-                  className="
-                    bg-blue-600
-                    text-white
-                    text-xs
-                    px-2
-                    py-1
-                    rounded-full
-                  "
-                >
-                  {cartCount}
-                </span>
-              )}
+              🛒 Cart ({cartCount})
             </Link>
 
             <button
               onClick={handleLogout}
-              className="
-                bg-red-500
-                text-white
-                py-2
-                rounded-lg
-                hover:bg-red-600
-                transition
-              "
+              className="bg-red-500 text-white py-2 rounded-lg"
             >
               Logout
             </button>
+
           </div>
         )}
+
       </div>
     </nav>
   );
